@@ -1,0 +1,68 @@
+* 数据类型
+
+  | 数据类型      | 内存占用 |       说明 |
+  |---------------+----------+------------|
+  | void          |        - |            |
+  | Boolean       |        1 | true/false |
+  | char          |        1 |            |
+  | Unsigned char |        1 |      0-255 |
+  | byte          |        1 |      0-255 |
+  | int           |      2/4 |            |
+  | word          |      2/4 |            |
+  | long          |        4 |            |
+  | Unsigned long |        4 |   0-2^32-1 |
+  | float         |        4 |            |
+  | double        |      4/8 |            |
+
+* 时间函数
+
+** delay() 
+   以毫秒为单位，接受整数参数
+
+** delayMicroseconds()
+   以微秒为单位，接受整数参数
+
+** millis()
+   返回开始运行当前程序的毫秒数
+
+** micros()
+   返回运行当前程序的微秒数，约70分钟后溢出归0
+
+* I/O函数
+
+** 配置为INPUT
+   Arduino引脚默认配置为输入，因此作为输入时不需要使用pinMode()显示配置，以这种方式配置的引脚处于高阻抗状态。输入引脚对采样电路要求非常小，相当于100M欧的串联电阻。
+
+** 上拉电阻
+   如果没有输入，上拉电阻将输入引脚导到一直状态。
+
+*** 使用内置上拉电阻，配置引脚为输入
+    通过pinMode()设置为INPUT_PULLUP
+
+** 配置为OUTPUT
+
+*** pinMode()函数
+
+    #+BEGIN_SRC emacs-lisp
+      pinMode(pin, mode); // mode: INPUT,OUTPUT,INPUT_PULLUP
+    #+END_SRC
+
+*** digitalWrite()函数
+
+    #+BEGIN_SRC emacs-lisp
+      digitalWrite(pin, value); // value: HIGH、LOW
+    #+END_SRC
+
+*** analogRead()函数
+
+    #+BEGIN_SRC emacs-lisp
+      int analogRead(pin); // 返回值在0-1023之间
+    #+END_SRC
+
+* 字符函数
+  所有数据都以字符形式输入计算机，包括字母，数字和各种特殊符号。在本章节中，我们讨论C++检查和操作单个字符的功能。
+
+  字符处理库包括几个函数，执行有用的测试和字符数据的操作。每个函数接收一个字符，表示为int或EOF作为参数。字符通常作为整数操作。
+
+  记住，EOF通常具有值-1，而一些硬件架构不允许负值存储在char变量中。因此，字符处理函数将字符作为整数来操作。
+  

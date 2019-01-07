@@ -1,0 +1,124 @@
+* 设计模式
+
+** 单例模式
+
+*** 分类
+
+**** 1、懒汉式，线程不安全
+这种方式最大的问题就是不支持多线程，不能再多线程下正常工作
+
+#+BEGIN_SRC java
+  public class Singleton {
+      private static Singleton instance;
+      private Singleton(){}
+
+      public static Singleton getInstance() {
+          if (instance == null) {
+              instance = new Singleton();
+          }
+          return instance;
+      }
+  }
+#+END_SRC
+
+**** 2、懒汉式，线程安全
+对getInstance加锁，能够在多线程下工作，但是效率低。
+
+#+BEGIN_SRC java
+  public class Singleton {
+      private static Singleton instance;
+      private Singleton(){}
+
+      public static synchronized Singleton getInstance() {
+          if (instance == null) {
+              instance = new Singleton();
+          }
+          return instance;
+      }
+  }
+#+END_SRC
+
+**** 3、饿汉式
+比较常用，但是容易产生垃圾对象，没有懒加载
+
+#+BEGIN_SRC java
+  public class Singleton {
+      private static Singleton instance = new Singleton();
+      private Singleton(){}
+      public static Singleton getInstance() {
+          return instance;
+      }
+  }
+#+END_SRC
+**** 4、双检锁/双重校验锁（DCL）
+线程安全且能保持高性能
+#+BEGIN_SRC java
+  public class Singleton {
+      private volatile static Singleton singleton;
+      private Singleton(){}
+      public static Singleton getInstance() {
+          synchronized (Singleton.class) {
+              if(singleton == null) {
+                  singleton = new Singleton();
+              }
+          }
+          return singleton;
+      }
+  }
+#+END_SRC
+**** 5、登记式/内部静态类
+和DCL一样的功效，但是实现更简单。
+#+BEGIN_SRC java
+  public class Singleton {
+      private static class SingletonHolder {
+          private static final Singleton INSTANCE = new Singleton();
+      }
+      private Singleton(){}
+      public static final Singleton getInstance() {
+          return SingletonHolder.INSTANCE;
+      }
+  }
+#+END_SRC
+**** 6、枚举
+使用枚举特性，种实现方式还没有被广泛采用，但这是实现单例模式的最佳方法。它更简洁，自动支持序列化机制，绝对防止多次实例化。
+这种方式是 Effective Java 作者 Josh Bloch 提倡的方式，它不仅能避免多线程同步问题，而且还自动支持序列化机制，防止反序列化重新创建新的对象，绝对防止多次实例化。不过，由于 JDK1.5 之后才加入 enum 特性，用这种方式写不免让人感觉生疏，在实际工作中，也很少用。
+不能通过 reflection attack 来调用私有构造方法。
+#+BEGIN_SRC java
+  public enum Singleton {
+      INSTANCE;
+      public void whateverMethod() {
+      }
+  }
+#+END_SRC
+** 建造者模式
+建造者模式（Builder Pattern）使用多个简单的对象一步一步构建成一个复杂的对象。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
+一个 Builder 类会一步一步构造最终的对象。该 Builder 类是独立于其他对象的。
+** 原型模式
+* 基本概念
+** interface和abstract的区别
+1、interface需要被实现，abstract需要被继承
+2、一个类可以实现多个接口，继承一个抽象类
+3、接口中的方法都是抽象的，抽象类中可以有非抽象的方法
+** java7新特性
+1、switch使用字符串
+2、List泛型实例化自动推断
+** java8新特性
+1、允许接口添加非抽象的方法，使用default
+2、lambda表达式
+3、竞态条件:两个及以上线程竞争统一资源时，如果对资源的访问顺序敏感，就称竞态条件
+* final
+** final关键字有哪些用法
+** final与static关键字可以用于哪里？他们的作用是什么
+** final、finalize、finally有什么不同
+** 能否在运行时向static final赋值
+** 使用final关键字修饰一个变量时，是引用不能变，还是引用对象不能变
+** 一个类被声明为fianl类型，表示什么意思
+** throws、thorw、try、catch、finally分别有什么意义
+** java有几种修饰符，分别是什么意思
+* volatile
+** volatile变量是什么，volatile和atomic有什么不同
+** volatile类型提供什么保证
+** 能创建volatile数组吗
+** transient变量有什么特点
+** super什么时候使用
+** public static void 写成static public void会怎样

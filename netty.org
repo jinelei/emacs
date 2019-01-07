@@ -1,0 +1,9 @@
+* 什么是Netty
+Netty是一个利用java的高级网络的能力，隐藏其背后的复杂性儿提供一个易于使用的API的客户端/服务端框架。
+Netty是一个广泛使用Java网络编程框架。，Netty使用NIO开发
+* Netty和Tomcat的区别
+Netty和Tomcat最大的区别就在于通信协议
+** Tomcat是基于Http协议的，它实质上是一个基于http协议的web容器
+** Netty能通过编程自定义各种协议，因为netty能够通过codec来编解码
+* Netty传输为什么快
+Netty传输快其实是依赖于NIO的一个特性--零拷贝。一般我们的数据如果需要从IO读取到堆内存，中间需要经过Socket缓冲区，针对这个，NIO中使用了一个特性零拷贝，当他需要接受数据时，会在堆内存只外开辟一块内存，数据直接从IO读取到那块内存中去，在Netty中通过ByteBuf可以直接对这些数据进行操作，从而加快了速度。
